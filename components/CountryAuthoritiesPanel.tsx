@@ -4,16 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import AnimatedList from "@/components/AnimatedList";
-import LanguageToggle from "@/components/LanguageToggle";
 import {
   type AttendanceMode,
   type Authority,
   getAttendanceMode,
 } from "@/src/lib/faceometer-data";
-import {
-  type LanguageOption,
-  localizePosition,
-} from "@/src/lib/authority-localization";
 
 type CountryAuthoritiesPanelProps = {
   countrySlug: string;
@@ -39,7 +34,6 @@ export default function CountryAuthoritiesPanel({
   countrySlug,
   authorities,
 }: CountryAuthoritiesPanelProps) {
-  const [language, setLanguage] = useState<LanguageOption>("en");
   const [modeFilter, setModeFilter] = useState<ModeFilter>("all");
   const [search, setSearch] = useState("");
 
@@ -75,7 +69,6 @@ export default function CountryAuthoritiesPanel({
             className="interactive-button w-full rounded-xl border border-line/80 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-400 focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 sm:text-base"
           />
         </div>
-        <LanguageToggle value={language} onChange={setLanguage} />
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -107,7 +100,8 @@ export default function CountryAuthoritiesPanel({
         >
           {filteredAuthorities.map((authority) => {
             const attendanceMode = getAttendanceMode(authority.mode);
-            const localizedPosition = localizePosition(authority.position, language);
+            // TODO: Re-enable localized titles when dataset has vetted translations.
+            const positionLabel = authority.position;
 
             return (
               <li key={authority.authority_slug}>
@@ -130,7 +124,7 @@ export default function CountryAuthoritiesPanel({
                       {authority.full_name}
                     </p>
                     <p className="line-clamp-3 text-sm text-slate-700">
-                      {localizedPosition}
+                      {positionLabel}
                     </p>
                     {authority.organization ? (
                       <p className="line-clamp-2 text-sm text-muted">

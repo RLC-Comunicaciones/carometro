@@ -2,16 +2,11 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import LanguageToggle from "@/components/LanguageToggle";
 import {
   type Authority,
   type AttendanceMode,
   getAttendanceMode,
 } from "@/src/lib/faceometer-data";
-import {
-  type LanguageOption,
-  localizePosition,
-} from "@/src/lib/authority-localization";
 
 type AuthorityProfileProps = {
   authority: Authority;
@@ -22,7 +17,6 @@ export default function AuthorityProfile({
   authority,
   countryName,
 }: AuthorityProfileProps) {
-  const [language, setLanguage] = useState<LanguageOption>("en");
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">(
     "idle"
   );
@@ -31,10 +25,8 @@ export default function AuthorityProfile({
     () => getAttendanceMode(authority.mode),
     [authority.mode]
   );
-  const localizedPosition = useMemo(
-    () => localizePosition(authority.position, language),
-    [authority.position, language]
-  );
+  // TODO: Re-enable localized titles when dataset has vetted translations.
+  const positionLabel = authority.position;
 
   async function handleCopyLink() {
     if (typeof window === "undefined") return;
@@ -85,15 +77,10 @@ export default function AuthorityProfile({
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted">Position language</span>
-            <LanguageToggle value={language} onChange={setLanguage} />
-          </div>
-
           <dl className="space-y-4 text-sm sm:text-base">
             <div>
               <dt className="font-semibold text-slate-800">Position</dt>
-              <dd className="mt-1 text-slate-700">{localizedPosition}</dd>
+              <dd className="mt-1 text-slate-700">{positionLabel}</dd>
             </div>
 
             {authority.organization ? (
