@@ -18,6 +18,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Faceometer data build
+
+To generate normalized datasets from `faceometer.xlsx`, run:
+
+```bash
+npm install
+npm run build:faceometer-data
+```
+
+This script:
+
+- Reads `faceometer.xlsx` from project root.
+- Keeps only records with photo (column value or embedded image extracted to `public/photos/`).
+- Writes `src/data/faceometer.json`.
+- Writes `src/data/countries.json` (unique countries, sorted by `country_en`).
+
+Run it again every time `faceometer.xlsx` changes (new authorities, updated metadata, or updated photos).
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
