@@ -23,6 +23,8 @@ const modeFilterOptions: Array<{ label: string; value: ModeFilter }> = [
   { label: "Virtual", value: "Virtual" },
 ];
 
+const COUNTRY_WITH_PENDING_PHOTO = "antigua-and-barbuda";
+
 function normalizeText(value: string) {
   return value
     .normalize("NFD")
@@ -100,6 +102,8 @@ export default function CountryAuthoritiesPanel({
         >
           {filteredAuthorities.map((authority) => {
             const attendanceMode = getAttendanceMode(authority.mode);
+            const showPendingPhotoMessage =
+              authority.country_slug === COUNTRY_WITH_PENDING_PHOTO;
             // TODO: Re-enable localized titles when dataset has vetted translations.
             const positionLabel = authority.position;
 
@@ -109,15 +113,21 @@ export default function CountryAuthoritiesPanel({
                   href={`/country/${countrySlug}/${authority.authority_slug}`}
                   className="interactive-card group flex h-full gap-4 rounded-2xl border border-line/80 bg-surface p-4 transition hover:border-slate-300 hover:bg-[#ececec] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
                 >
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-brandBase">
-                    <Image
-                      src={authority.photo}
-                      alt={authority.full_name}
-                      fill
-                      sizes="96px"
-                      className="object-cover"
-                    />
-                  </div>
+                  {showPendingPhotoMessage ? (
+                    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl border border-dashed border-line/80 bg-brandBase px-2 text-center text-[11px] leading-tight text-slate-600">
+                      Official photo currently under review.
+                    </div>
+                  ) : (
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-brandBase">
+                      <Image
+                        src={authority.photo}
+                        alt={authority.full_name}
+                        fill
+                        sizes="96px"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
 
                   <div className="min-w-0 space-y-1.5">
                     <p className="line-clamp-2 text-base font-semibold text-slate-800">

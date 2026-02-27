@@ -62,6 +62,10 @@
     min-height: 100%;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     background-color: #ffffff;
     color: var(--text-default);
@@ -74,6 +78,12 @@
 
   * {
     border-color: var(--border-soft);
+  }
+}
+
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
   }
 }
 

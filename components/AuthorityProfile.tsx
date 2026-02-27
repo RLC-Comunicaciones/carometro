@@ -13,6 +13,8 @@ type AuthorityProfileProps = {
   countryName: string;
 };
 
+const COUNTRY_WITH_PENDING_PHOTO = "antigua-and-barbuda";
+
 export default function AuthorityProfile({
   authority,
   countryName,
@@ -25,6 +27,8 @@ export default function AuthorityProfile({
     () => getAttendanceMode(authority.mode),
     [authority.mode]
   );
+  const showPendingPhotoMessage =
+    authority.country_slug === COUNTRY_WITH_PENDING_PHOTO;
   // TODO: Re-enable localized titles when dataset has vetted translations.
   const positionLabel = authority.position;
 
@@ -44,16 +48,22 @@ export default function AuthorityProfile({
   return (
     <article className="mt-6 rounded-2xl border border-line/80 bg-surface p-5 sm:p-7">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(260px,320px)_1fr]">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-brandBase">
-          <Image
-            src={authority.photo}
-            alt={`${authority.full_name}, delegate from ${countryName}`}
-            fill
-            sizes="(min-width: 1024px) 320px, 100vw"
-            className="object-cover"
-            priority
-          />
-        </div>
+        {showPendingPhotoMessage ? (
+          <div className="flex aspect-[4/5] items-center justify-center rounded-2xl border border-dashed border-line/80 bg-brandBase px-6 text-center text-sm text-slate-600 sm:text-base">
+            We are currently verifying the official photo for this delegate.
+          </div>
+        ) : (
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-brandBase">
+            <Image
+              src={authority.photo}
+              alt={`${authority.full_name}, delegate from ${countryName}`}
+              fill
+              sizes="(min-width: 1024px) 320px, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
 
         <div className="space-y-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
