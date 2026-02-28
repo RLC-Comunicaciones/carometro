@@ -32,21 +32,56 @@ export async function generateMetadata({
   const country = getCountryBySlug(countrySlug);
   const authority = getAuthorityBySlugs(countrySlug, authoritySlug);
 
+  const title = "Carómetro FAO | LARC 39";
+  const description = "Desarrollado por la Unidad Regional de Comunicaciones";
+  const imageUrl = "/larc39.jpeg";
+
   if (!country || !authority) {
     return {
-      title: "Faceometer",
-      description: "Faceometer authority profile.",
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        images: [
+          {
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [imageUrl],
+      },
     };
   }
-
-  const title = `${authority.full_name} | ${country.country_en} | Faceometer`;
-  const description = authority.organization
-    ? `${authority.position}. ${authority.organization}.`
-    : `${authority.position}.`;
 
   return {
     title,
     description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
+    },
   };
 }
 

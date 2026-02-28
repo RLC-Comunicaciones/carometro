@@ -85,8 +85,8 @@
     "last_name": "Justiniano Pinto",
     "full_name": "Oscar Mario Justiniano Pinto",
     "authority_slug": "oscar-mario-justiniano-pinto",
-    "position": "Ministro de Desarrollo Productivo y Economía Plural",
-    "organization": "Ministerio de Desarrollo Productivo y Economía Plural",
+    "position": "Ministro de Desarrollo Productivo, Rural y Agua",
+    "organization": "Ministerio de Desarrollo Productivo, Rural y Agua",
     "mode": "On-Site",
     "photo": "/photos/bolivia-oscar-mario-justiniano-pinto.png"
   },
@@ -393,6 +393,19 @@
     "country_en": "Peru",
     "country_code": null,
     "country_slug": "peru",
+    "first_name": "Rómulo Fernando",
+    "last_name": "Acurio Traverso",
+    "full_name": "Rómulo Fernando Acurio Traverso",
+    "authority_slug": "romulo-fernando-acurio-traverso",
+    "position": "Embajador del Perú en la República Federativa de Brasil",
+    "organization": "Embajada del Perú en la República Federativa de Brasil",
+    "mode": "On-Site",
+    "photo": "/photos/romulo-acurio.jpg"
+  },
+  {
+    "country_en": "Peru",
+    "country_code": null,
+    "country_slug": "peru",
     "first_name": "Vladimir",
     "last_name": "Cuno",
     "full_name": "Vladimir Cuno",
@@ -400,7 +413,8 @@
     "position": "Ministro de Desarrollo Agrario y Riego",
     "organization": "Ministerio de Desarrollo Agrario y Riego",
     "mode": "On-Site",
-    "photo": "/photos/peru-vladimir-cuno.png"
+    "photo": "/photos/peru-vladimir-cuno.png",
+    "hidden": true
   },
   {
     "country_en": "Saint Lucia",

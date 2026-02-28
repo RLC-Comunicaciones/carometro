@@ -19,6 +19,7 @@ export type Authority = {
   organization: string;
   mode: string | null;
   photo: string;
+  hidden?: boolean;
 };
 
 export type AttendanceMode = "On-Site" | "Virtual";
@@ -30,6 +31,10 @@ export type CountrySummary = Country & {
 
 const countries = countriesData as Country[];
 const authorities = authoritiesData as Authority[];
+
+function isVisibleAuthority(authority: Authority): boolean {
+  return authority.hidden !== true;
+}
 
 const countryIso2FallbackBySlug: Record<string, string> = {
   "antigua-and-barbuda": "ag",
@@ -92,12 +97,15 @@ export function getCountryBySlug(countrySlug: string): Country | undefined {
 }
 
 export function getAuthorities(): Authority[] {
-  return authorities;
+  return authorities.filter(isVisibleAuthority);
 }
 
 export function getAuthoritiesByCountrySlug(countrySlug: string): Authority[] {
   return authorities
-    .filter((authority) => authority.country_slug === countrySlug)
+    .filter(
+      (authority) =>
+        authority.country_slug === countrySlug && isVisibleAuthority(authority)
+    )
     .sort((a, b) =>
       a.full_name.localeCompare(b.full_name, "en", { sensitivity: "base" })
     );
@@ -110,13 +118,15 @@ export function getAuthorityBySlugs(
   return authorities.find(
     (authority) =>
       authority.country_slug === countrySlug &&
-      authority.authority_slug === authoritySlug
+      authority.authority_slug === authoritySlug &&
+      isVisibleAuthority(authority)
   );
 }
 
 export function getCountrySummaries(): CountrySummary[] {
   const authorityCountByCountry = authorities.reduce<Record<string, number>>(
     (acc, authority) => {
+      if (!isVisibleAuthority(authority)) return acc;
       if (!authority.photo) return acc;
       acc[authority.country_slug] = (acc[authority.country_slug] ?? 0) + 1;
       return acc;
